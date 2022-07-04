@@ -80,7 +80,7 @@ Therefore, we can use a `Proxy` class with the constructed `AnnotationInvocation
 * The `AnnotationInvocationHandler` class is a Java internal class, we need to construct an object by reflections.
 
 * The another parameter of the constructor function of `AnnotationInvocationHandler` class is an `Annotation` class except for `Map` class. In method `AnnotationInvocationHandler.readObject()`, a condition that the key of the decorated `Map` object is a method name of the `Annotation` object
-, should be satisfied to excute method `AnnotationInvocationHandler.memberValues.Entry.setValue()`. So ues `Retention` or `Target Annotation` object.
+, should be satisfied to excute method `AnnotationInvocationHandler.memberValues.Entry.setValue()`. So use `Retention` or `Target Annotation` object.
 
 * In method `AnnotationInvocationHandler.invoke()`, a condition that the method of the proxied object is a non-parametric method should be satisfied to excute method `AnnotationInvocationHandler.memberValues.get()`.
 
