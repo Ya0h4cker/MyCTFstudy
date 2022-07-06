@@ -8,18 +8,19 @@
                 LazyMap.get()
                 ChainedTransformer.transform()
                     ConstantTransformer.transform()
+                        TrAXFilter.class
                     InstantiateTransformer.transform()
                         TrAXFilter.TrAXFilter()
-                        TemplatesImpl.newTransformer()
-                            TemplatesImpl.getTransletInstance() 
-                                TemplatesImpl.defineTransletClasses()
-                                    ClassLoder.defineClass()
+                            TemplatesImpl.newTransformer()
+                                TemplatesImpl.getTransletInstance() 
+                                    TemplatesImpl.defineTransletClasses()
+                                        ClassLoder.defineClass()
 
 ## Analysis
 
 ### Key: TrAXFilter
 
-`TrAXFilter`: a class whose constructor will call `TemplatesImpl.newTransformer()` method, but it isn't serializable.
+`TrAXFilter`: The constructor of the `TrAXFilter` class will call `TemplatesImpl.newTransformer()` method, but the `TrAXFilter` class isn't serializable.
 
 `InstantiateTransformer`: a kind of `Transformer` class, calling the constructor of a input object, and return the instantiation result.
 
