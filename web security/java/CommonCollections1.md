@@ -71,7 +71,7 @@ In method `AnnotationInvocationHandler.readObject()`, use `AnnotationInvocationH
 
 As we mentioned, `AnnotationInvocationHandler` class is a kind of `handler` class for Java dynamic proxy. So an arbitraty method of proxied class is called means that the `handler.invoke()` method is called. Coincidentally, in method `AnnotationInvocationHandler.invoke()`, the method `AnnotationInvocationHandler.memberValues.get()` is called.
 
-Therefore, we can use a `Proxy` class with the constructed `AnnotationInvocationHandler` class to proxy a `Map` object. Then the proxied `Map` object is as `AnnotationInvocationHandler.memberValues` of another new `AnnotationInvocationHandler` object. When the method `AnnotationInvocationHandler.readObject()` of the new `AnnotationInvocationHandler` object is called, method `AnnotationInvocationHandler.memberValues.entrySet()` is called, which means a method of the proxied `Map` object is called.
+Therefore, we can use a `Proxy` class with the constructed `AnnotationInvocationHandler` class to proxy a `Map` object. Then the proxied `Map` object is as `AnnotationInvocationHandler.memberValues` of another new `AnnotationInvocationHandler` object. When the method `readObject()` of the new `AnnotationInvocationHandler` object is called, method `AnnotationInvocationHandler.memberValues.entrySet()` is called, which means a method of the proxied `Map` object is called.
 
 ## Note
 
