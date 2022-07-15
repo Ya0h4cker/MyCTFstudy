@@ -10,7 +10,7 @@ For retransformering a loaded java class, we need to write the java agent code a
 
 ### Javassist
 
-Javassist is a java class library for editing java bytecode like writing java.
+The `Javassist` is a java class library for editing java bytecode like writing java.
 
 ## Anaysis
 

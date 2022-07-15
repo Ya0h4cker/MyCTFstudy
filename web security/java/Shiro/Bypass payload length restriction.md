@@ -10,4 +10,4 @@ Modify the HTTP request method to an unkown method.
 
 * Modify the max size of HTTP request header in `Tomcat` by reflection.
 
-* The payload in cookie realizes obtaining the `request` object, thereby acquiring the data in the HTTP request body. Then the payload realizes calling `ClassLoader.defineClass()` method to load the evil class dynamically with the bytecodes in the HTTP request body.
+* The payload in cookie realizes obtaining the `Request` object, thereby acquiring the data in the HTTP request body. Then the payload realizes calling `ClassLoader.defineClass()` method to load the evil class dynamically with the bytecodes in the HTTP request body.
