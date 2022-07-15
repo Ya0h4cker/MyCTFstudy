@@ -10,7 +10,7 @@ Hook the dynamic addtion method and storage location.
 
 The memory shell is usually loaded through some unsafe classloaders, so check the classloader.
 
-## DumpClass
+## Dumpclass
 
 Traverse all `Servlet` and `Filter`, decompile bytecode and check.
 
