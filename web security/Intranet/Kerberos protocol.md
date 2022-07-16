@@ -34,7 +34,7 @@ We will now describe each of the three roundtrips between a client (C) and the K
 ### Authentication service (AS) exchange ($C ⇔ K$)
 
 The client process $C$ generates a nonce $n_1$ and sends it to the KAS together with her own name, $C$, which
-indirectly identifies the user, and the name of the TGS (officially “krbtgt”, here abbreviated as $T$).
+indirectly identifies the user, and the name of the TGS (officially "**krbtgt**", here abbreviated as $T$).
 
 Upon recognizing $C$,  the KAS replies with a message containing two encrypted components:
 
