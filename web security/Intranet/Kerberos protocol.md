@@ -12,7 +12,7 @@ Server: the service provider.
 
 - **KAS: the Kerberos authentication server**, who authenticates the user and provides the corresponding client with **ticket granting tickets (TGT)*- to use the network for the day.
 
-- **TGS: the ticket granting server**, who authenticates the client to each requested server based on the TGT and provides the corresponding client with **service tickets (ST)*- to access the requested service.
+- **TGS: the ticket granting server**, who authenticates the client to each requested server based on the TGT and provides the corresponding client with **service tickets (ST)** to access the requested service.
 
 ## Authentication exchange
 
