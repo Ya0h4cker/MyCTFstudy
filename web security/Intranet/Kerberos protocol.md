@@ -50,7 +50,7 @@ In the outgoing message, $C$ transmits the cached TGT and $S$'s name together wi
 
 Upon authenticating $C$ and verifying that she is allowed to use $S$, the TGS sends a response containing two encrypted components:
 
-- the ST ${\{SK, C, t_T\}}_{k_S}$ is encrypted with the long-term key $k_S$ shared between the KDC and $S$, and it contains a freshly generated service key $SK$, $C$'s name, and a timestamp $t_T$.
+- The ST ${\{SK, C, t_T\}}_{k_S}$ is encrypted with the long-term key $k_S$ shared between the KDC and $S$, and it contains a freshly generated service key $SK$, $C$'s name, and a timestamp $t_T$.
 
 - ${\{SK, n_2, t_T, S\}}_{AK}$. The other encrypted component is as in the second message above, but now encrypted with the authentication key $AK$. $C$ caches the $ST$.
 
