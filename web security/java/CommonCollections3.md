@@ -26,4 +26,4 @@
 
 ## Note
 
-* Because the `TrAXFilter` class isn't serializable, we can use the `TrAXFilter.class` object as the input of `InstantiateTransformer` object instead. This `CommonCollections3` chain is suitable for the situation where the `InvokerTransformer` class is banned.
+- Because the `TrAXFilter` class isn't serializable, we can use the `TrAXFilter.class` object as the input of `InstantiateTransformer` object instead. This `CommonCollections3` chain is suitable for the situation where the `InvokerTransformer` class is banned.

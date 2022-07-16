@@ -10,19 +10,19 @@ First `Tomcat filter` then `Shiro filter`.
 
 ### Shiro filter pattern
 
-* `anon`: Anonymous filter, can access the page without login.
+- `anon`: Anonymous filter, can access the page without login.
 
-* `authc`: Authentication filter, must login and be authenticated to access the page.
+- `authc`: Authentication filter, must login and be authenticated to access the page.
 
 ### Shiro filter match pattern
 
 Match the URL path for the access route.
 
-* `?` : Match a character.
+- `?` : Match a character.
 
-* `*` : Match a or more characters.
+- `*` : Match a or more characters.
 
-* `**` : Match a or more directories.
+- `**` : Match a or more directories.
 
 ## 1 CVE-2016-6802
 

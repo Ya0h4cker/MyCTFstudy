@@ -18,6 +18,6 @@ The string `outputProperties` is as the field `BeanComparator.property`. In meth
 
 ## Note
 
-* This chain is similar with `CommonCollections2` chain, and we need to avoid triggering the gadget chain in advance by reflections.
+- This chain is similar with `CommonCollections2` chain, and we need to avoid triggering the gadget chain in advance by reflections.
 
-* This chain also depends on `commons-collections`, because the constructor of the `BeanComparator` class will call a method of the `ComparableComparator` class in `commons-collections` by default. To avoid depending on `commons-collections`, we can set `String.CASE_INSENSITIVE_ORDER` as the constructor parameter of the `BeanComparator` class which means that get a `CaseInsensitiveComparator` object instead of the default `ComparableComparator` class.
+- This chain also depends on `commons-collections`, because the constructor of the `BeanComparator` class will call a method of the `ComparableComparator` class in `commons-collections` by default. To avoid depending on `commons-collections`, we can set `String.CASE_INSENSITIVE_ORDER` as the constructor parameter of the `BeanComparator` class which means that get a `CaseInsensitiveComparator` object instead of the default `ComparableComparator` class.

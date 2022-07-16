@@ -27,4 +27,4 @@ The `TiedMapEntry` object is as `BadAttributeValueExpException.value`. In method
 
 ## Note
 
-* When instantiating a `BadAttributeValueExpException` object, `BadAttributeValueExpException.value.toString()` method will also be called. Therefore, we need to avoid triggering the gadget chain in advance by reflections.
+- When instantiating a `BadAttributeValueExpException` object, `BadAttributeValueExpException.value.toString()` method will also be called. Therefore, we need to avoid triggering the gadget chain in advance by reflections.

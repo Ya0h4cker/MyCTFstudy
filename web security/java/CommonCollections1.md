@@ -75,13 +75,13 @@ Therefore, we can use a `Proxy` class with the constructed `AnnotationInvocation
 
 ## Note
 
-* The `Runtime` class can't be serialized, so use `Runtime.class` object and invoke `Runtime,getRuntime()` method instead .
+- The `Runtime` class can't be serialized, so use `Runtime.class` object and invoke `Runtime,getRuntime()` method instead .
 
-* The `AnnotationInvocationHandler` class is a Java internal class, we need to construct an object by reflections.
+- The `AnnotationInvocationHandler` class is a Java internal class, we need to construct an object by reflections.
 
-* The another parameter of the constructor function of the `AnnotationInvocationHandler` class is an `Annotation` class except for `Map` class. In method `AnnotationInvocationHandler.readObject()`, a condition that the key of the decorated `Map` object is a method name of the `Annotation` object
+- The another parameter of the constructor function of the `AnnotationInvocationHandler` class is an `Annotation` class except for `Map` class. In method `AnnotationInvocationHandler.readObject()`, a condition that the key of the decorated `Map` object is a method name of the `Annotation` object
 , should be satisfied to excute method `AnnotationInvocationHandler.memberValues.Entry.setValue()`. So use `Retention` or `Target Annotation` object.
 
-* In method `AnnotationInvocationHandler.invoke()`, a condition that the method of the proxied object is a non-parametric method should be satisfied to excute method `AnnotationInvocationHandler.memberValues.get()`.
+- In method `AnnotationInvocationHandler.invoke()`, a condition that the method of the proxied object is a non-parametric method should be satisfied to excute method `AnnotationInvocationHandler.memberValues.get()`.
 
-* **Patch for `jdk>=8u71`**: in method `AnnotationInvocationHandler.readObject()`, invoke `entrySet()` of the `ObjectInputStream.readFields().get("memberValues", null)` object instead invoke `AnnotationInvocationHandler.memberValues.entrySet()` directly; Delete `AnnotationInvocationHandler.memberValues.Entry.setValue()` call instead use a new `LinkedHashMap` object to store the key and value. The patch can prevent `TransformedMap.Entry.setValue()` and `LazyMap.get()` methods being called. However, the `CommonCollections6` chain can bypass.
+- **Patch for `jdk>=8u71`**: in method `AnnotationInvocationHandler.readObject()`, invoke `entrySet()` of the `ObjectInputStream.readFields().get("memberValues", null)` object instead invoke `AnnotationInvocationHandler.memberValues.entrySet()` directly; Delete `AnnotationInvocationHandler.memberValues.Entry.setValue()` call instead use a new `LinkedHashMap` object to store the key and value. The patch can prevent `TransformedMap.Entry.setValue()` and `LazyMap.get()` methods being called. However, the `CommonCollections6` chain can bypass.
