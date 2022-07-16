@@ -4,7 +4,7 @@
 
 Modify the HTTP request method to an unkown method.
 
-**Principle:*- The cookie in HTTP header is read before the HTTP request method is processed. However the WAF only filters partial HTTP request methods.
+**Principle:** The cookie in HTTP header is read before the HTTP request method is processed. However the WAF only filters partial HTTP request methods.
 
 ## Tomcat restriction
 
