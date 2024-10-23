@@ -32,7 +32,7 @@ Therefore, set the value to the evil class name, so that we can load the evil cl
 
 ## Native deserialization
 
-Native deserialization refers to the use of Java native deserialization `ObjectOutputStream.writeObject()` as the source to trigger deserialization vulnerabilities.
+Native deserialization refers to the use of Java native deserialization `ObjectInputStream.readObject()` as the source to trigger deserialization vulnerabilities.
 
 In `Fastjson`, the `JSONArray` class inherits the Serializable interface, and has a `toString()` method. In that method, the `toJSONString()` method will be called, which in turn triggers the `getter` method of the specified class. Therefore, we can trigger a deserialization vulnerability by calling the `toString()` method of the `JSONArray` class from the `readObject()` method of the `BadAttributeValueExpException` class.
 
