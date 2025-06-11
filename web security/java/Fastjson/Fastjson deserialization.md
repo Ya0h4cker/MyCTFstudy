@@ -16,7 +16,7 @@ The `setAutoCommit()` method of the `JdbcRowSetImpl` class calls the `connect()`
 
 ## BasicDataSource chain
 
-The `getConnection()` method of the `BasicDataSource` class calls the `createDataSource()` method and then calls the `createConnectionFactory()` method. In the `createConnectionFactory()` method, `Class.forName(driverClassName, true, driverClassLoader)` method is called to retrieve the driver class, and then the driver class is instantiated. So that the static code block in the class specified by `driverClassName` will be executed. Therefore, we can set the `driverClassLoader` to the BCEL Classloader and set the `driverClassName` to a string of malicious class bytecodes to load it through the BCEL Classloader.
+The `getConnection()` method of the `BasicDataSource` class calls the `createDataSource()` method and then calls the `createConnectionFactory()` method. In the `createConnectionFactory()` method, `Class.forName(driverClassName, true, driverClassLoader)` method is called to load a driver class, and then the driver class is instantiated. So that the static code block in the class specified by `driverClassName` will be executed. Therefore, we can set the `driverClassLoader` to the BCEL Classloader and set the `driverClassName` to a string of malicious class bytecodes to load it through the BCEL Classloader.
 
 ### BCEL Classloader
 
